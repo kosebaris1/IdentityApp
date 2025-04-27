@@ -20,7 +20,7 @@ namespace IdentityApp.Models
             var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
             var user = await userManager.FindByNameAsync(adminUser);
-
+            
             if (user == null)
             {
                 user = new IdentityUser
