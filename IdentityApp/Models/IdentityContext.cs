@@ -10,5 +10,10 @@ namespace IdentityApp.Models
         {
 
         }
+
+        public static implicit operator IdentityContext(IdentityUser v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
