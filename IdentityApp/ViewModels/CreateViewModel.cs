@@ -6,9 +6,10 @@ namespace IdentityApp.ViewModels
 {
     public class CreateViewModel
     {
-        [Required(ErrorMessage = "Kullanıcı adı boş olamaz")]
-        [DisplayName("Name")]
-        public string? UserName { get; set; }
+      
+        [Required]
+        [DisplayName("Full Name")]
+        public string? FullName { get; set; }
 
         [Required(ErrorMessage = "E-Posta alanı boş olamaz")]
         [EmailAddress]
