@@ -6,7 +6,10 @@ namespace IdentityApp.ViewModels
 {
     public class CreateViewModel
     {
-      
+        [Required]
+        [DisplayName("User Name")]
+        public string? UserName { get; set; }
+
         [Required]
         [DisplayName("Full Name")]
         public string? FullName { get; set; }
