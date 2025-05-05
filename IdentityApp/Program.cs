@@ -28,6 +28,18 @@ namespace IdentityApp
 
                 options.User.RequireUniqueEmail = true;
             //  options.User.AllowedUserNameCharacters = "absjcksdv";
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+            });
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login"; // zaten default ayarý bu ben göstermek için ekledim.
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                
             });
 
             var app = builder.Build();
@@ -43,7 +55,7 @@ namespace IdentityApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
