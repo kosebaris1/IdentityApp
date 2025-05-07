@@ -16,7 +16,7 @@ namespace IdentityApp
                   options => options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"])
              );
 
-            builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<IdentityContext>();
+            builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
             builder.Services.Configure<IdentityOptions>(options =>
             {
@@ -31,6 +31,8 @@ namespace IdentityApp
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
+
+                options.SignIn.RequireConfirmedEmail = true;
             });
 
             builder.Services.ConfigureApplicationCookie(options =>
