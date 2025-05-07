@@ -9,12 +9,18 @@ namespace IdentityApp.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
 
+        private readonly RoleManager<AppRole> _roleManager;
+
         private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly IEmailSender _emailSender;
+
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailSender emailSender, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
+            _roleManager = roleManager;
         }
         public IActionResult Login()
         {
@@ -85,6 +91,10 @@ namespace IdentityApp.Controllers
                 {
                     var token= await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var url = Url.Action("ConfirmEmail", "Account", new {Id = user.Id,token = token });
+
+                    //email servis bilgilerine göre gönderilecek. Mail server almadığım için yorum saturuna aldım.Siz istediğiniz mail server bilhilerini appsettings.json dosyasında düzenleyebilirsiniz.
+                    //await _emailSender.SendEmailAsync(user.Email, "Hesap onayı", $"Lütfen email hesabınızı onaylamak için linke <a href ='https://localhost:7244{url}'>tıklayınız.</a>");
+
                     TempData["message"] = "Email hesabınızdaki onay mailine tıklayınız";
                     return RedirectToAction("Login","Account");
                 }

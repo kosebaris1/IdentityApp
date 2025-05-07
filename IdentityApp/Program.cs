@@ -10,6 +10,16 @@ namespace IdentityApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddScoped<IEmailSender,SmtpEmailSender>(i => 
+            new SmtpEmailSender(
+                builder.Configuration["EmailSender:Host"],
+                builder.Configuration.GetValue<int>("EmailSender:Port"),
+                builder.Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                builder.Configuration["EmailSender:Username"],
+                builder.Configuration["EmailSender:Password"])
+
+                );
+
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<IdentityContext>(
@@ -43,6 +53,7 @@ namespace IdentityApp
                 options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 
             });
+
 
             var app = builder.Build();
 
